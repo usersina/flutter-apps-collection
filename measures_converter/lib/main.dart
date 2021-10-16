@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -29,7 +27,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  double? _numberFrom;
+  final _inputController = TextEditingController();
+  double? _resNumber;
   String _selectedFrom = 'grams';
   String _selectedTo = 'kilograms';
 
@@ -42,11 +41,28 @@ class _MainScreenState extends State<MainScreen> {
   };
 
   // -- The conversion formula
-  double calculateResult(double value) {
-    log("Multiplying by " + _massConvertions[_selectedTo]!.toString());
-    log("Dividing by " + _massConvertions[_selectedFrom]!.toString());
-    return value *
-        (_massConvertions[_selectedTo]! / _massConvertions[_selectedFrom]!);
+  double? calculateResult() {
+    var value = double.tryParse(_inputController.text);
+    if (value != null) {
+      return value *
+          (_massConvertions[_selectedTo]! / _massConvertions[_selectedFrom]!);
+    }
+  }
+
+  @override
+  void initState() {
+    _inputController.addListener(() {
+      setState(() {
+        _resNumber = calculateResult();
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _inputController.dispose();
+    super.dispose();
   }
 
   @override
@@ -68,20 +84,11 @@ class _MainScreenState extends State<MainScreen> {
               ),
               const SizedBox(height: 20),
               TextField(
+                controller: _inputController,
                 keyboardType: TextInputType.number,
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 22),
                 decoration: const InputDecoration(hintText: 'e.g. 5126'),
-                onChanged: (text) {
-                  var value = double.tryParse(text);
-                  setState(() {
-                    if (value == null) {
-                      _numberFrom = 0;
-                      return;
-                    }
-                    _numberFrom = calculateResult(value);
-                  });
-                },
               ),
               const SizedBox(height: 15),
               DropdownButton<String>(
@@ -97,6 +104,7 @@ class _MainScreenState extends State<MainScreen> {
                 onChanged: (value) {
                   setState(() {
                     _selectedFrom = value as String;
+                    _resNumber = calculateResult();
                   });
                 },
               ),
@@ -114,14 +122,15 @@ class _MainScreenState extends State<MainScreen> {
                 onChanged: (value) {
                   setState(() {
                     _selectedTo = value as String;
+                    _resNumber = calculateResult();
                   });
                 },
               ),
               const SizedBox(height: 30),
               Text(
-                (_numberFrom == null || _numberFrom == 0)
+                (_resNumber == null || _resNumber == 0)
                     ? ''
-                    : _numberFrom!.toStringAsFixed(3),
+                    : _resNumber!.toStringAsFixed(3),
                 style: const TextStyle(fontSize: 22),
               )
             ],
