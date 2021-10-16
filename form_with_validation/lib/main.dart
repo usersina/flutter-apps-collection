@@ -32,6 +32,7 @@ class _MainScreenState extends State<MainScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _enableAutoValidation = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +51,9 @@ class _MainScreenState extends State<MainScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Form(
+                  autovalidateMode: _enableAutoValidation
+                      ? AutovalidateMode.onUserInteraction
+                      : AutovalidateMode.disabled,
                   key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -121,6 +125,10 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                         ),
                         onTap: () {
+                          setState(() {
+                            // -- Auto validation for better UX
+                            _enableAutoValidation = true;
+                          });
                           if (_formKey.currentState != null &&
                               _formKey.currentState!.validate()) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
