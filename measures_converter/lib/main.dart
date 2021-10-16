@@ -29,17 +29,25 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final List<String> _measures = [
-    'grams',
-    'kilograms',
-    'feet',
-    'miles',
-    'pounds (lb.)',
-    'ounces',
-  ];
   double? _numberFrom;
   String _selectedFrom = 'grams';
   String _selectedTo = 'kilograms';
+
+  // -- Mass conversions from a base of 1 gram
+  final Map<String, double> _massConvertions = {
+    'grams': 1,
+    'kilograms': 1 / 1000,
+    'pounds (lb.)': 1 / 454,
+    'ounces': 1 / 28.35
+  };
+
+  // -- The conversion formula
+  double calculateResult(double value) {
+    log("Multiplying by " + _massConvertions[_selectedTo]!.toString());
+    log("Dividing by " + _massConvertions[_selectedFrom]!.toString());
+    return value *
+        (_massConvertions[_selectedTo]! / _massConvertions[_selectedFrom]!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,44 +74,54 @@ class _MainScreenState extends State<MainScreen> {
                 decoration: const InputDecoration(hintText: 'e.g. 5126'),
                 onChanged: (text) {
                   var value = double.tryParse(text);
-                  if (value != null) {
-                    setState(() {
-                      _numberFrom = value;
-                    });
-                  }
+                  setState(() {
+                    if (value == null) {
+                      _numberFrom = 0;
+                      return;
+                    }
+                    _numberFrom = calculateResult(value);
+                  });
                 },
               ),
               const SizedBox(height: 15),
               DropdownButton<String>(
                 value: _selectedFrom,
                 isExpanded: true,
-                items: _measures.map((String measure) {
-                  return DropdownMenuItem(value: measure, child: Text(measure));
+                items: _massConvertions.entries
+                    .map((MapEntry<String, double> mapEntry) {
+                  return DropdownMenuItem(
+                    child: Text(mapEntry.key),
+                    value: mapEntry.key,
+                  );
                 }).toList(),
                 onChanged: (value) {
                   setState(() {
                     _selectedFrom = value as String;
                   });
-                  log("Selected value is: " + _selectedFrom);
                 },
               ),
               const SizedBox(height: 10),
               DropdownButton<String>(
                 value: _selectedTo,
                 isExpanded: true,
-                items: _measures.map((String measure) {
-                  return DropdownMenuItem(value: measure, child: Text(measure));
+                items: _massConvertions.entries
+                    .map((MapEntry<String, double> mapEntry) {
+                  return DropdownMenuItem(
+                    child: Text(mapEntry.key),
+                    value: mapEntry.key,
+                  );
                 }).toList(),
                 onChanged: (value) {
                   setState(() {
                     _selectedTo = value as String;
                   });
-                  log("Selected value is: " + _selectedTo);
                 },
               ),
               const SizedBox(height: 30),
               Text(
-                (_numberFrom == null) ? '' : _numberFrom.toString(),
+                (_numberFrom == null || _numberFrom == 0)
+                    ? ''
+                    : _numberFrom!.toStringAsFixed(3),
                 style: const TextStyle(fontSize: 22),
               )
             ],
