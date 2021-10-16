@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -140,7 +142,11 @@ class _MainScreenState extends State<MainScreen> {
                               action: SnackBarAction(
                                 label: 'Ok',
                                 textColor: Colors.white,
-                                onPressed: () {},
+                                onPressed: () {
+                                  log(_nameController.text);
+                                  log(_emailController.text);
+                                  log(_passwordController.text);
+                                },
                               ),
                               backgroundColor: Colors.green[600],
                             ));
