@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -30,9 +28,10 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,60 +49,98 @@ class _MainScreenState extends State<MainScreen> {
               width: 300,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextFormField(
-                      controller: _nameController,
-                      decoration: const InputDecoration(
-                        hintText: "Enter your name...",
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        hintText: "Enter your email...",
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        hintText: "Enter your password...",
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    InkWell(
-                      child: Ink(
-                        height: 50,
-                        decoration: const BoxDecoration(
-                          color: Colors.deepPurple,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12),
-                          ),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextFormField(
+                        controller: _nameController,
+                        validator: (String? value) {
+                          if (value != null && value.isEmpty) {
+                            return "Please enter your name";
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          hintText: "Enter your name...",
+                          border: OutlineInputBorder(),
                         ),
-                        child: const Center(
-                          child: Text(
-                            "Validate",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
+                      ),
+                      const SizedBox(height: 12),
+                      TextFormField(
+                        controller: _emailController,
+                        validator: (String? value) {
+                          if (value != null &&
+                              (value.isEmpty || !value.contains("@"))) {
+                            return "Please enyer a valid email";
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: const InputDecoration(
+                          hintText: "Enter your email...",
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      TextFormField(
+                        controller: _passwordController,
+                        validator: (String? value) {
+                          if (value != null &&
+                              (value.isEmpty || value.length < 6)) {
+                            return "Please enter a strong password";
+                          }
+                          return null;
+                        },
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          hintText: "Enter your password...",
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      InkWell(
+                        child: Ink(
+                          height: 50,
+                          decoration: const BoxDecoration(
+                            color: Colors.deepPurple,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(12),
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              "Validate",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      onTap: () {
-                        log("clicking!");
-                      },
-                    )
-                  ],
+                        onTap: () {
+                          if (_formKey.currentState != null &&
+                              _formKey.currentState!.validate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: const Text(
+                                'Your fields are correct',
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                              duration: const Duration(seconds: 1),
+                              action: SnackBarAction(
+                                label: 'Ok',
+                                textColor: Colors.white,
+                                onPressed: () {},
+                              ),
+                              backgroundColor: Colors.green[600],
+                            ));
+                          }
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
