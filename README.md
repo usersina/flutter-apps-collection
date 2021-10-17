@@ -7,7 +7,7 @@ For detailed information about each individual app, check out their respective f
 <div align="center">
 <h2>
  <strong>
-   <a href="https://github.com/usersina/demo-flutter-apps/blob/main/measures_converter">1. Measures Converter</a>
+   <a href="https://github.com/usersina/demo-flutter-apps/tree/main/measures_converter#measured-converter">1. Measures Converter</a>
  </strong>
 </h2>
 
@@ -17,9 +17,9 @@ For detailed information about each individual app, check out their respective f
 <div align="center">
 <h2>
  <strong>
-   <a href="https://github.com/usersina/demo-flutter-apps/blob/main/form_with_validation">2. Form with Validation</a>
+   <a href="https://github.com/usersina/demo-flutter-apps/tree/main/form_with_validation#form-with-validation">2. Form with Validation</a>
  </strong>
 </h2>
 
-![](/media/measures-converter.png)
+![](/media/form-validation.png)
 </div>
