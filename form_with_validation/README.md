@@ -1,16 +1,16 @@
-# form_with_validation
+# Form with Validation
+A simple form that includes custom validation.
 
-A new Flutter project.
+The app mainly includes:
+- Three `TextFormField` wigets, each with their controller.
+- A validator for each one of the fields.
+- An `InkWell` button with custom decorations. 
+- An `autovalidateMode` that will be enabled when the button is first clicked.
+- A `SnackBar` that will show when the form is valid.
 
-## Getting Started
+**Note:** The `autovalidateMode` is used to let the user know in **real-time** that the form has become valid, instead of having to click the button each time to check the validity.
 
-This project is a starting point for a Flutter application.
+<div align="center">
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![](/media/form-validation.png)
+</div>

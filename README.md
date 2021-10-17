@@ -1,7 +1,7 @@
 # Flutter Apps Collection
-A simple collection of flutter apps with some common use cases & useful little tricks.
+A simple collection of flutter apps with some common use cases & useful little tricks. All with **null safety!**
 
-For more details about each individual project, check out their respective folders.
+For detailed information about each individual app, check out their respective folders.
 
 # Overview
 <div align="center">
