@@ -22,7 +22,7 @@ class Student {
         map['id'],
         map['lastname'],
         map['firstname'],
-        map['birthDate'],
-        map['classroomId'],
+        map['birth_date'],
+        map['classroom_id'],
       );
 }

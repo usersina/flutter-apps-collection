@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqlite_db_manager/models/classroom.dart';
+import 'package:sqlite_db_manager/models/student.dart';
 
 class DbService {
   final int version = 1;
@@ -39,6 +42,7 @@ class DbService {
     );
   }
 
+  // ---- Classroom methods
   Future<List<Classroom>> getClassrooms() async {
     await openDB();
     if (_database == null) {
@@ -49,6 +53,26 @@ class DbService {
     return List.generate(
       rawResult.length,
       (idx) => Classroom.fromMap(
+        rawResult[idx],
+      ),
+    );
+  }
+
+  // ---- Student methods
+  Future<List<Student>> getStudents(int classroomId) async {
+    await openDB();
+    if (_database == null) {
+      return Future.error("Cannot get students list, database is null!");
+    }
+    final List<Map<String, dynamic>> rawResult = await _database!.query(
+      'students',
+      where: 'classroom_id = ?',
+      whereArgs: [classroomId],
+    );
+    log(rawResult.toString());
+    return List.generate(
+      rawResult.length,
+      (idx) => Student.fromMap(
         rawResult[idx],
       ),
     );
