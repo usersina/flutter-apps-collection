@@ -69,7 +69,6 @@ class DbService {
       where: 'classroom_id = ?',
       whereArgs: [classroomId],
     );
-    log(rawResult.toString());
     return List.generate(
       rawResult.length,
       (idx) => Student.fromMap(
@@ -84,18 +83,18 @@ class DbService {
     try {
       await _database?.execute("INSERT INTO classrooms VALUES(0, 'DSI-33');");
     } catch (e) {
-      print("Cannot add the test classroom");
+      log("Cannot add the test classroom");
     }
 
     try {
       await _database?.execute(
           "INSERT INTO students VALUES(0, 'Doe', 'John', '15/04/1995', 0)");
     } catch (e) {
-      print("Cannot insert the test student");
+      log("Cannot insert the test student");
     }
     List? lists = await _database?.rawQuery("SELECT * FROM classrooms");
     List? items = await _database?.rawQuery("SELECT * FROM students");
-    print(lists?[0]);
-    print(items?[0]);
+    log(lists?[0]);
+    log(items?[0]);
   }
 }
