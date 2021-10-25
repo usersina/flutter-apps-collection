@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sqlite_db_manager/models/classroom.dart';
 import 'package:sqlite_db_manager/models/student.dart';
 import 'package:sqlite_db_manager/services/db_service.dart';
+import 'package:sqlite_db_manager/widgets/students_list.dart';
 
 class StudentsScreen extends StatelessWidget {
   final Classroom classroom;
@@ -19,7 +20,7 @@ class StudentsScreen extends StatelessWidget {
         future: _dbService.getStudents(classroom.id),
         builder: (context, AsyncSnapshot<List<Student>> snapshot) {
           if (snapshot.hasData) {
-            return const Text("data");
+            return StudentsList(students: snapshot.data!);
           } else if (snapshot.hasError) {
             return Center(
               child: Text("${snapshot.error}"),
