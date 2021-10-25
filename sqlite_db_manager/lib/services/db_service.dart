@@ -13,7 +13,8 @@ class DbService {
     return _dbServiceHelper;
   }
 
-  Future<Database?> openDB() async {
+  Future<void> openDB() async {
+    if (_database != null) return;
     _database ??= await openDatabase(
       p.join(await getDatabasesPath(), "my_database.db"),
       version: version,
@@ -36,10 +37,10 @@ class DbService {
         """);
       },
     );
-    return _database;
   }
 
   Future<List<Classroom>> getClassrooms() async {
+    await openDB();
     if (_database == null) {
       return Future.error("Cannot get classrooms list, database is null!");
     }
@@ -55,7 +56,7 @@ class DbService {
 
   // ---- Testing function
   Future<void> testDB() async {
-    _database = await openDB();
+    await openDB();
     try {
       await _database?.execute("INSERT INTO classrooms VALUES(0, 'DSI-33');");
     } catch (e) {
