@@ -28,14 +28,24 @@ class ClassroomDialog extends StatelessWidget {
           children: [
             TextField(controller: nameController),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 late Classroom myClassroom;
-                // -- Create or update the classroom
-                if (isNew) {
-                  // TODO: Call User service to create entry in db
-                  myClassroom = Classroom(2, nameController.text);
-                } else {
-                  myClassroom = Classroom(classroom!.id, nameController.text);
+                switch (isNew) {
+                  case true: // -- Create a new classroom
+                    if (nameController.text.isEmpty) {
+                      // Maybe show a toast or sth
+                      // Close the dialog without proceeding
+                      return Navigator.pop(context);
+                    }
+                    myClassroom =
+                        await _dbService.createClassroom(nameController.text);
+                    break;
+                  case false: // -- Update an existing classroom
+                    myClassroom = await _dbService.updateClassroom(
+                      classroom!.id,
+                      nameController.text,
+                    );
+                    break;
                 }
                 // -- Forward change to parent
                 onChanged(myClassroom);

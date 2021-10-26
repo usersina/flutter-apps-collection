@@ -43,18 +43,53 @@ class DbService {
   }
 
   // ---- Classroom methods
+  Future<Classroom> createClassroom(String name) async {
+    await openDB();
+    if (_database == null) {
+      return Future.error("Cannot create a classroom, database is null!");
+    }
+    final int id = await _database!.insert("classrooms", {'name': name});
+    return Classroom(id, name);
+  }
+
   Future<List<Classroom>> getClassrooms() async {
     await openDB();
     if (_database == null) {
       return Future.error("Cannot get classrooms list, database is null!");
     }
     final List<Map<String, dynamic>> rawResult =
-        await _database!.query('classrooms');
+        await _database!.query("classrooms");
     return List.generate(
       rawResult.length,
       (idx) => Classroom.fromMap(
         rawResult[idx],
       ),
+    );
+  }
+
+  Future<Classroom> updateClassroom(int id, String name) async {
+    await openDB();
+    if (_database == null) {
+      return Future.error("Cannot update classroom, database is null!");
+    }
+    await _database!.update(
+      "classrooms",
+      {"name": name},
+      where: "id = ?",
+      whereArgs: [id],
+    );
+    return Classroom(id, name);
+  }
+
+  Future<void> deleteClassroom(int id) async {
+    await openDB();
+    if (_database == null) {
+      return Future.error("Cannot delete classroom, database is null!");
+    }
+    await _database!.delete(
+      "classrooms",
+      where: "id = ?",
+      whereArgs: [id],
     );
   }
 
@@ -65,8 +100,8 @@ class DbService {
       return Future.error("Cannot get students list, database is null!");
     }
     final List<Map<String, dynamic>> rawResult = await _database!.query(
-      'students',
-      where: 'classroom_id = ?',
+      "students",
+      where: "classroom_id = ?",
       whereArgs: [classroomId],
     );
     return List.generate(

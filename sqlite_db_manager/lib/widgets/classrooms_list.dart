@@ -1,13 +1,17 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:sqlite_db_manager/models/classroom.dart';
 import 'package:sqlite_db_manager/screens/students_screen.dart';
+import 'package:sqlite_db_manager/services/db_service.dart';
 import 'package:sqlite_db_manager/widgets/classroom_dialog.dart';
 
 class ClassroomsList extends StatefulWidget {
   final List<Classroom> classrooms;
-  const ClassroomsList({Key? key, required this.classrooms}) : super(key: key);
+  final Function notifyParentToChanges;
+  const ClassroomsList({
+    Key? key,
+    required this.classrooms,
+    required this.notifyParentToChanges,
+  }) : super(key: key);
 
   @override
   _ClassroomsListState createState() => _ClassroomsListState();
@@ -16,14 +20,14 @@ class ClassroomsList extends StatefulWidget {
 class _ClassroomsListState extends State<ClassroomsList> {
   @override
   Widget build(BuildContext context) {
-    List<Classroom> classrooms = widget.classrooms;
+    DbService _dbService = DbService();
 
     return Padding(
       padding: const EdgeInsets.all(15),
       child: ListView.builder(
-        itemCount: classrooms.length,
+        itemCount: widget.classrooms.length,
         itemBuilder: (BuildContext context, int index) {
-          Classroom classroom = classrooms[index];
+          Classroom classroom = widget.classrooms[index];
           return Padding(
             padding: const EdgeInsets.only(bottom: 5.0),
             child: Container(
@@ -65,7 +69,8 @@ class _ClassroomsListState extends State<ClassroomsList> {
                             builder: (context) => ClassroomDialog(
                               classroom: classroom,
                               onChanged: (respClass) {
-                                List<Classroom> classes = classrooms.map(
+                                List<Classroom> classrooms =
+                                    widget.classrooms.map(
                                   (classr) {
                                     if (classr.id == respClass.id) {
                                       classr.name = respClass.name;
@@ -73,9 +78,7 @@ class _ClassroomsListState extends State<ClassroomsList> {
                                     return classr;
                                   },
                                 ).toList();
-                                setState(() {
-                                  classrooms = classes;
-                                });
+                                widget.notifyParentToChanges(classrooms);
                               },
                             ),
                           );
@@ -83,7 +86,15 @@ class _ClassroomsListState extends State<ClassroomsList> {
                       ),
                       IconButton(
                         icon: const Icon(Icons.delete),
-                        onPressed: () {},
+                        onPressed: () async {
+                          await _dbService.deleteClassroom(classroom.id);
+                          List<Classroom> classrooms = widget.classrooms
+                              .where(
+                                (classr) => classr.id != classroom.id,
+                              )
+                              .toList();
+                          widget.notifyParentToChanges(classrooms);
+                        },
                       ),
                     ],
                   ),
