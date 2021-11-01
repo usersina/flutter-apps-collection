@@ -3,21 +3,34 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sqlite_db_manager/models/student.dart';
+import 'package:sqlite_db_manager/services/db_service.dart';
 
 class StudentDialog extends StatelessWidget {
   final Student? student;
+  final int classroomId;
   final ValueChanged<Student> onChanged;
-  const StudentDialog({Key? key, this.student, required this.onChanged})
-      : super(key: key);
+  const StudentDialog({
+    Key? key,
+    this.student,
+    required this.classroomId,
+    required this.onChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     late bool isNew = student == null ? true : false;
-    final firstNameController = TextEditingController();
-    final lastNameController = TextEditingController();
-    final dateTextController = TextEditingController();
+    final firstNameController = TextEditingController(
+      text: student == null ? '' : student!.firstname,
+    );
+    final lastNameController = TextEditingController(
+      text: student == null ? '' : student!.lastname,
+    );
+    final dateTextController = TextEditingController(
+      text: student == null ? '' : student!.birthDate,
+    );
 
     final df = DateFormat('dd-MM-yyyy');
+    final DbService _dbService = DbService();
     DateTime selectedDate = DateTime.now();
 
     Future<void> _selectDate(BuildContext context) async {
@@ -65,9 +78,9 @@ class StudentDialog extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                // late Student myStudent;
+                late Student myStudent;
                 switch (isNew) {
-                  case true: // -- Create a new classroom
+                  case true: // -- Create a new student
                     if (firstNameController.text.isEmpty ||
                         lastNameController.text.isEmpty ||
                         dateTextController.text.isEmpty) {
@@ -75,18 +88,25 @@ class StudentDialog extends StatelessWidget {
                       // Close the dialog without proceeding
                       return Navigator.pop(context);
                     }
-                    // myStudent =
-                    //     await _dbService.createClassroom(nameController.text);
+                    myStudent = await _dbService.createStudent(
+                      lastNameController.text,
+                      firstNameController.text,
+                      dateTextController.text,
+                      classroomId,
+                    );
                     break;
-                  case false: // -- Update an existing classroom
-                    // myStudent = await _dbService.updateClassroom(
-                    //   myStudent!.id,
-                    //   nameController.text,
-                    // );
+                  case false: // -- Update an existing student
+                    myStudent = await _dbService.updateStudent(
+                      student!.id,
+                      lastNameController.text,
+                      firstNameController.text,
+                      dateTextController.text,
+                      classroomId,
+                    );
                     break;
                 }
                 // -- Forward change to parent
-                // onChanged(myClassroom);
+                onChanged(myStudent);
                 // -- Close the dialog
                 Navigator.pop(context);
               },

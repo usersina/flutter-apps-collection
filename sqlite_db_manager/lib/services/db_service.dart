@@ -112,6 +112,50 @@ class DbService {
     );
   }
 
+  Future<Student> createStudent(
+    String lastname,
+    String firstname,
+    String birthDate,
+    int classroomId,
+  ) async {
+    await openDB();
+    if (_database == null) {
+      return Future.error("Cannot create a student, database is null!");
+    }
+    final int id = await _database!.insert("students", {
+      "lastname": lastname,
+      "firstname": firstname,
+      "birth_date": birthDate,
+      "classroom_id": classroomId
+    });
+    return Student(id, lastname, firstname, birthDate, classroomId);
+  }
+
+  Future<Student> updateStudent(
+    int id,
+    String lastname,
+    String firstname,
+    String birthDate,
+    int classroomId,
+  ) async {
+    await openDB();
+    if (_database == null) {
+      return Future.error("Cannot update student, database is null!");
+    }
+    await _database!.update(
+      "students",
+      {
+        "lastname": lastname,
+        "firstname": firstname,
+        "birth_date": birthDate,
+        "classroom_id": classroomId
+      },
+      where: "id = ?",
+      whereArgs: [id],
+    );
+    return Student(id, lastname, firstname, birthDate, classroomId);
+  }
+
   // ---- Testing function
   Future<void> testDB() async {
     await openDB();

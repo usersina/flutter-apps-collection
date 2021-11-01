@@ -14,9 +14,10 @@ class ClassroomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isNew = classroom == null ? true : false;
-    final nameController = TextEditingController();
+    final nameController = TextEditingController(
+      text: classroom == null ? '' : classroom!.name,
+    );
 
-    nameController.text = classroom == null ? '' : classroom!.name;
     DbService _dbService = DbService();
     return AlertDialog(
       title: Text(isNew ? 'Add a new classroom' : 'Edit classroom'),

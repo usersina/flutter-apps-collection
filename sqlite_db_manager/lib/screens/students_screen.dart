@@ -34,8 +34,10 @@ class _StudentsScreenState extends State<StudentsScreen> {
         builder: (context, AsyncSnapshot<List<Student>> snapshot) {
           if (snapshot.hasData) {
             students = students ?? snapshot.data!;
-            // notifyParentToChanges: onStudentsChange,
-            return StudentsList(students: students!);
+            return StudentsList(
+              students: students!,
+              notifyParentToChanges: onStudentsChange,
+            );
           } else if (snapshot.hasError) {
             return Center(
               child: Text("${snapshot.error}"),
@@ -51,6 +53,7 @@ class _StudentsScreenState extends State<StudentsScreen> {
           showDialog(
             context: context,
             builder: (context) => StudentDialog(
+              classroomId: widget.classroom.id,
               onChanged: (e) {
                 setState(() {
                   students!.add(e);

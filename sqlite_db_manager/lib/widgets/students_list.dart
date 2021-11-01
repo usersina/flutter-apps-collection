@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:sqlite_db_manager/models/student.dart';
+import 'package:sqlite_db_manager/widgets/student_dialog.dart';
 
 class StudentsList extends StatefulWidget {
   final List<Student> students;
-  const StudentsList({Key? key, required this.students}) : super(key: key);
+  final Function notifyParentToChanges;
+  const StudentsList({
+    Key? key,
+    required this.students,
+    required this.notifyParentToChanges,
+  }) : super(key: key);
 
   @override
   StudentsListState createState() => StudentsListState();
@@ -27,7 +33,26 @@ class StudentsListState extends State<StudentsList> {
           onTap: () {},
           trailing: IconButton(
             icon: const Icon(Icons.edit),
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => StudentDialog(
+                  student: student,
+                  classroomId: student.classroomId,
+                  onChanged: (respStudent) {
+                    List<Student> students = widget.students.map(
+                      (stud) {
+                        if (stud.id == respStudent.id) {
+                          stud = respStudent;
+                        }
+                        return stud;
+                      },
+                    ).toList();
+                    widget.notifyParentToChanges(students);
+                  },
+                ),
+              );
+            },
           ),
         );
       },
