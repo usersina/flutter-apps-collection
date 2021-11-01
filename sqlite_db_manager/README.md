@@ -1,16 +1,29 @@
-# sqlite_db_manager
+# SQLite database manager
+A local relational database manager manager.
 
-A new Flutter project.
+The database has two tables `Classrooms` & `Students` with a one classroom to many students relation. The main features of the app are:
+- A `DbService` to handle all requests to the local database.
+- A `FutureBuilder` to demonstrate how to get data asynchronously, along with a `ProgressIndicator`.
+- A `Dismissible` list tile in a `ListView`.
+- Emitting data changes from child to parent using custom notifiers to keep a single source of truth.
+- `AlertDialog`s and how to catch data in the parent calling the dialog.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+<div align="center">
 
-A few resources to get you started if this is your first Flutter project:
+![](/media/sqflite_classrooms.png)
+</div>
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+<div align="center">
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![](/media/sqflite_students.png)
+</div>
+
+<div align="center">
+
+![](/media/sqflite_students_form.png)
+</div>
+
+One might notice the not so direct method of updating the `classrooms` & `students` using custom notifiers and data catchers. 
+
+This emphasizes the need for a better state management system, such as the context `Provider`, which is coming up in future projects...

@@ -23,3 +23,13 @@ For detailed information about each individual app, check out their respective f
 
 ![](/media/form-validation.png)
 </div>
+
+<div align="center">
+<h2>
+ <strong>
+   <a href="https://github.com/usersina/flutter-apps-collection/tree/main/sqlite_db_manager#sqlite-database-manager">3. SQLite database manager</a>
+ </strong>
+</h2>
+
+![](/media/sqflite_students.png)
+</div>
