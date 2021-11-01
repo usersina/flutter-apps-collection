@@ -27,7 +27,12 @@ class ClassroomDialog extends StatelessWidget {
       content: SingleChildScrollView(
         child: Column(
           children: [
-            TextField(controller: nameController),
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(
+                hintText: "Name",
+              ),
+            ),
             ElevatedButton(
               onPressed: () async {
                 late Classroom myClassroom;

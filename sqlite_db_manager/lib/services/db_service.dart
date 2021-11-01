@@ -91,6 +91,12 @@ class DbService {
       where: "id = ?",
       whereArgs: [id],
     );
+    // -- On delete CASCADE
+    await _database!.delete(
+      "students",
+      where: "classroom_id = ?",
+      whereArgs: [id],
+    );
   }
 
   // ---- Student methods
@@ -154,6 +160,18 @@ class DbService {
       whereArgs: [id],
     );
     return Student(id, lastname, firstname, birthDate, classroomId);
+  }
+
+  Future<void> deleteStudent(int id) async {
+    await openDB();
+    if (_database == null) {
+      return Future.error("Cannot delete student, database is null!");
+    }
+    await _database!.delete(
+      "students",
+      where: "id = ?",
+      whereArgs: [id],
+    );
   }
 
   // ---- Testing function

@@ -48,16 +48,17 @@ class _ClassroomsListState extends State<ClassroomsList> {
                       ),
                     );
                   },
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(classroom.name),
-                      Text(classroom.id.toString()),
-                    ],
-                  ),
-                  // leading: CircleAvatar(
-                  //   child: Text(classroom.id.toString()),
+                  title: Text(classroom.name),
+                  // Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     Text(classroom.name),
+                  //     Text(classroom.id.toString()),
+                  //   ],
                   // ),
+                  leading: CircleAvatar(
+                    child: Text(classroom.id.toString()),
+                  ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
