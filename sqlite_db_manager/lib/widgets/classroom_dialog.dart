@@ -19,7 +19,7 @@ class ClassroomDialog extends StatelessWidget {
     nameController.text = classroom == null ? '' : classroom!.name;
     DbService _dbService = DbService();
     return AlertDialog(
-      title: Text(isNew ? 'Add new classroom' : 'Edit classroom'),
+      title: Text(isNew ? 'Add a new classroom' : 'Edit classroom'),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
       ),

@@ -6,7 +6,12 @@ class Student {
   int classroomId;
 
   Student(
-      this.id, this.lastname, this.firstname, this.birthDate, this.classroomId);
+    this.id,
+    this.lastname,
+    this.firstname,
+    this.birthDate,
+    this.classroomId,
+  );
 
   Map<String, dynamic> toMap() {
     return {
