@@ -26,9 +26,15 @@ class StudentsListState extends State<StudentsList> {
       itemBuilder: (BuildContext context, int index) {
         Student student = widget.students[index];
         return Dismissible(
-          key: Key(student.id.toString()),
-          onDismissed: (direction) {
-            _dbService.deleteStudent(student.id);
+          key: UniqueKey(),
+          onDismissed: (direction) async {
+            List<Student> newStudents = widget.students
+                .where(
+                  (stdt) => stdt.id != student.id,
+                )
+                .toList();
+            await _dbService.deleteStudent(student.id);
+            widget.notifyParentToChanges(newStudents);
           },
           child: ListTile(
             title: Text(
