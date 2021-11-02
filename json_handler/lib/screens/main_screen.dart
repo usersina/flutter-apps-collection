@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:json_handler/models/pizza.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -10,7 +12,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  String? rawData;
+  List<Pizza>? pizzas;
 
   @override
   void initState() {
@@ -25,9 +27,22 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         title: const Text("JSON Handler"),
       ),
-      body: Text(
-        rawData != null ? rawData! : "",
-      ),
+      body: pizzas == null
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemCount: pizzas!.length,
+              itemBuilder: (BuildContext context, int idx) {
+                Pizza pizza = pizzas![idx];
+                return ListTile(
+                  title: Text(pizza.pizzaName),
+                  subtitle: Text(
+                    pizza.description + " -\$" + pizza.price.toString(),
+                  ),
+                );
+              },
+            ),
     );
   }
 
@@ -35,8 +50,14 @@ class _MainScreenState extends State<MainScreen> {
     String myString = await DefaultAssetBundle.of(context).loadString(
       "assets/pizzalist.json",
     );
+    List rawResult = jsonDecode(myString);
+    List<Pizza> myPizzas = rawResult
+        .map(
+          (item) => Pizza.fromMap(item),
+        )
+        .toList();
     setState(() {
-      rawData = myString;
+      pizzas = myPizzas;
     });
   }
 }
