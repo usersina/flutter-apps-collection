@@ -26,6 +26,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // _dbService.getDBPath("students.db");
     return Scaffold(
       appBar: AppBar(
         title: const Text("SQLite Manager"),
