@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:sqlite_db_manager/models/classroom.dart';
 import 'package:sqlite_db_manager/services/db_service.dart';
@@ -26,7 +28,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // _dbService.getDBPath("students.db");
+    logDBPpath();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("SQLite Manager"),
@@ -75,5 +78,10 @@ class _MainScreenState extends State<MainScreen> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  Future logDBPpath() async {
+    String dbpath = await _dbService.getDBPath("classrooms.db");
+    log(dbpath);
   }
 }

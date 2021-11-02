@@ -196,6 +196,6 @@ class DbService {
   }
 
   Future<String> getDBPath(String dbname) async {
-    return p.join(await getDatabasesPath(), 'doggie_database.db');
+    return p.join(await getDatabasesPath(), dbname);
   }
 }
