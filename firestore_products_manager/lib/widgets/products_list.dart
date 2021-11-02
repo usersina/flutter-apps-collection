@@ -1,4 +1,6 @@
 import 'package:firestore_products_manager/models/product.dart';
+import 'package:firestore_products_manager/services/firestore_db_service.dart';
+import 'package:firestore_products_manager/widgets/product_dialog.dart';
 import 'package:flutter/material.dart';
 
 class ProductsList extends StatelessWidget {
@@ -26,11 +28,20 @@ class ProductsList extends StatelessWidget {
             children: [
               IconButton(
                 icon: const Icon(Icons.edit),
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => ProductDialog(
+                      product: product,
+                    ),
+                  );
+                },
               ),
               IconButton(
                 icon: const Icon(Icons.delete),
-                onPressed: () {},
+                onPressed: () {
+                  FireStoreDbService.deleteProduct(product.id);
+                },
               ),
             ],
           ),

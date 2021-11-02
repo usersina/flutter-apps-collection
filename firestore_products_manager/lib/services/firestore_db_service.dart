@@ -13,10 +13,10 @@ class FireStoreDbService {
     return user;
   }
 
-  final CollectionReference productsCollection =
+  static final CollectionReference productsCollection =
       FirebaseFirestore.instance.collection("products");
 
-  Future createProduct(String name, int price) async {
+  static Future createProduct(String name, int price) async {
     FireStoreDbService.ensureAuthenticated();
     return await productsCollection.doc().set({
       'name': name,
@@ -24,19 +24,27 @@ class FireStoreDbService {
     });
   }
 
-  // TODO: update
+  static Future updateProduct(String id, String name, int price) async {
+    FireStoreDbService.ensureAuthenticated();
+    return await productsCollection.doc(id).set({
+      'name': name,
+      'price': price,
+    });
+  }
 
-  // TODO: delete
+  static Future deleteProduct(String id) async {
+    return await productsCollection.doc(id).delete();
+  }
 
   // Get products stream
-  Stream<List<Product>> get products$ {
+  static Stream<List<Product>> get products$ {
     return productsCollection.snapshots().map(_productsListFromSnapshot);
   }
 
   // ----- Mappers -----
-  List<Product> _productsListFromSnapshot(QuerySnapshot snapshot) {
+  static List<Product> _productsListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs
-        .map((doc) => Product(doc["name"], doc["price"]))
+        .map((doc) => Product(doc.id, doc["name"], doc["price"]))
         .toList();
   }
 }
