@@ -13,7 +13,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "JSON Handler",
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
       home: const MainScreen(),
     );
   }
