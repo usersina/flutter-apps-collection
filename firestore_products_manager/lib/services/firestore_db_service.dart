@@ -24,9 +24,17 @@ class FireStoreDbService {
     });
   }
 
-  Future<List<Product>> getProducts() async {
-    FireStoreDbService.ensureAuthenticated();
-    QuerySnapshot snapshot = await productsCollection.get();
+  // TODO: update
+
+  // TODO: delete
+
+  // Get products stream
+  Stream<List<Product>> get products$ {
+    return productsCollection.snapshots().map(_productsListFromSnapshot);
+  }
+
+  // ----- Mappers -----
+  List<Product> _productsListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs
         .map((doc) => Product(doc["name"], doc["price"]))
         .toList();

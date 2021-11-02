@@ -2,7 +2,7 @@ import 'package:firestore_products_manager/models/product.dart';
 import 'package:flutter/material.dart';
 
 class ProductsList extends StatelessWidget {
-  // TODO: Use provider with a stream instead
+  // -- This widget will be re-rendered when the parent stream updates
   final List<Product> products;
   const ProductsList({Key? key, required this.products}) : super(key: key);
 
