@@ -51,8 +51,8 @@ class _FileSystemScreenState extends State<FileSystemScreen> {
     final tempDir = await getTemporaryDirectory();
 
     setState(() {
-      documentsPath = docsDir as String;
-      tempPath = tempDir as String;
+      documentsPath = docsDir.path.toString();
+      tempPath = tempDir.path.toString();
       loadingPaths = false;
     });
   }
