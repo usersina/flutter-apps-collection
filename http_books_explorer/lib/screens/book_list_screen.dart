@@ -62,8 +62,6 @@ class _BookListScreenState extends State<BookListScreen> {
   Future getTheBooks() async {
     try {
       List<Book> myBooks = await _helper.getBooks('flutter');
-      log(myBooks.toString());
-
       setState(() {
         books = myBooks;
       });

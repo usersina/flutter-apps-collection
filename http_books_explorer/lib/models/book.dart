@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 class Book {
   String id;
   String title;
@@ -19,10 +21,13 @@ class Book {
     String image = parsedJson['volumeInfo']['imageLinks'] == null
         ? ''
         : parsedJson['volumeInfo']['imageLinks']['thumbnail'];
-    image.replaceAll('http://', 'https://');
-
-    final String authors = parsedJson['volumeInfo']['authors'] ?? "";
-    final String description = parsedJson['volumeInfo']['description'] ?? "";
+    image = image.replaceAll('http://', 'https://');
+    final String authors = parsedJson['volumeInfo']['authors'] == null
+        ? ''
+        : parsedJson['volumeInfo']['authors'].toString();
+    final String description = parsedJson['volumeInfo']['description'] == null
+        ? ''
+        : parsedJson['volumeInfo']['description'].toString();
     return Book(id, title, authors, image, description);
   }
 }

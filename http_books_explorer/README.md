@@ -2,6 +2,9 @@
 
 A new Flutter project.
 
+Note: To display images in the web version, run
+`flutter run -d chrome --web-renderer html`
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
