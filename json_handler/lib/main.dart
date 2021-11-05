@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:json_handler/screens/filesystem_screen.dart';
-// import 'package:json_handler/screens/main_screen.dart';
+// import 'package:json_handler/screens/filesystem_screen.dart';
+import 'package:json_handler/screens/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      // home: const MainScreen(),
-      home: const FileSystemScreen(),
+      home: const MainScreen(),
+      // home: const FileSystemScreen(),
     );
   }
 }
