@@ -41,13 +41,22 @@ class _BookListScreenState extends State<BookListScreen> {
         : GridView.count(
             childAspectRatio: isLargeScreen ? 8 : 5,
             crossAxisCount: isLargeScreen ? 2 : 1,
+            mainAxisSpacing: isLargeScreen ? 30 : 0,
             children: List.generate(
               books.length,
               (idx) {
                 Book myBook = books[idx];
                 return ListTile(
-                  title: Text(myBook.title),
-                  subtitle: Text(myBook.authors),
+                  title: Text(
+                    myBook.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  subtitle: Text(
+                    myBook.authors,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   leading: CircleAvatar(
                     backgroundImage: (myBook.thumbnail) == ''
                         ? null

@@ -1,19 +1,17 @@
-# http_books_explorer
+# HTTP Books Explorer
 
-A new Flutter project.
+The app mainly includes:
+- A `GridView` that displays the books & changes based on the screen width.
+- An `HttpHelper` class that takes care of fetching & parsing the data.
+- A `MediaQuery` that detects the screen width changes.
 
-Note: To display images in the web version, run
-`flutter run -d chrome --web-renderer html`
 
-## Getting Started
+**Note:** To start in chrome, start with `flutter run -d chrome --web-renderer html`,
 
-This project is a starting point for a Flutter application.
+<div align="center">
 
-A few resources to get you started if this is your first Flutter project:
+![](/media/http-books-explorer-portrait.png)
+![](/media/http-books-explorer-landscape.png)
+</div>
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Application data is fetched from googleapis.com. Also note that this app does not use a `Future.builder`
