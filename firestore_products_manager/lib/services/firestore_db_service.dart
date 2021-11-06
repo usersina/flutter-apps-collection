@@ -33,11 +33,13 @@ class FireStoreDbService {
   }
 
   static Future deleteProduct(String id) async {
+    FireStoreDbService.ensureAuthenticated();
     return await productsCollection.doc(id).delete();
   }
 
   // Get products stream
   static Stream<List<Product>> get products$ {
+    FireStoreDbService.ensureAuthenticated();
     return productsCollection.snapshots().map(_productsListFromSnapshot);
   }
 
