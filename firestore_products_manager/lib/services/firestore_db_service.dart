@@ -39,6 +39,12 @@ class FireStoreDbService {
   // Get products stream
   static Stream<List<Product>> get products$ {
     return productsCollection.snapshots().map(_productsListFromSnapshot);
+
+    // return productsCollection.snapshots().map(
+    //       (snapshot) => snapshot.docs
+    //           .map((doc) => Product(doc.id, doc["name"], doc["price"]))
+    //           .toList(),
+    //     );
   }
 
   // ----- Mappers -----
