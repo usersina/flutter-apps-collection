@@ -1,5 +1,5 @@
 # Flutter Apps Collection
-A simple collection of flutter apps with some common use cases & useful little tricks. All with **null safety!**
+A simple collection of flutter applications with some common use cases & useful little tricks. The apps have been tested in iOS & Android. All with **null safety!**
 
 For detailed information about each individual app, check out their respective folders.
 
