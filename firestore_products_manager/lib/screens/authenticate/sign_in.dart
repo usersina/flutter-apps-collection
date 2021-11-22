@@ -16,6 +16,9 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final AuthService _authService = AuthService();
 
+  final _formKey = GlobalKey<FormState>();
+  bool _enableAutoValidation = false;
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -42,31 +45,72 @@ class _SignInState extends State<SignIn> {
           )
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-        child: Form(
-          child: Column(
-            children: <Widget>[
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: _emailController,
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: _passwordController,
-                obscureText: true,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () async {
-                  log(_emailController.text);
-                  log(_passwordController.text);
-                },
-                child: const Text(
-                  "Sign in",
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+          child: Form(
+            key: _formKey,
+            autovalidateMode: _enableAutoValidation
+                ? AutovalidateMode.onUserInteraction
+                : AutovalidateMode.disabled,
+            child: Column(
+              children: <Widget>[
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _emailController,
+                  validator: (String? value) {
+                    if (value == null) return "";
+
+                    if (value.isEmpty || !value.contains("@")) {
+                      return "Please enter a valid email";
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(
+                    hintText: "Enter your email",
+                    border: UnderlineInputBorder(),
+                  ),
                 ),
-              )
-            ],
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    hintText: "Enter your password",
+                    border: UnderlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    setState(() {
+                      _enableAutoValidation = true;
+                    });
+                    if (_formKey.currentState == null) return;
+
+                    if (_formKey.currentState!.validate()) {
+                      UserCredential? result = await _authService.signIn(
+                          _emailController.text, _passwordController.text);
+                      if (result == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Clould not log in with these credentials!',
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                            duration: Duration(seconds: 1),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    }
+                  },
+                  child: const Text(
+                    "Sign in",
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
