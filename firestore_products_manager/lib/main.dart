@@ -1,4 +1,4 @@
-import 'package:firestore_products_manager/screens/main_screen.dart';
+import 'package:firestore_products_manager/screens/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      home: const MainScreen(),
+      home: const Wrapper(),
     );
   }
 }

@@ -15,4 +15,8 @@ class AuthService {
       return null;
     }
   }
+
+  // Sign in with email & password
+
+  // Register with email & password
 }
