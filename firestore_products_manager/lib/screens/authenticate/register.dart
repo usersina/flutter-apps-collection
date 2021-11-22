@@ -1,29 +1,30 @@
 import 'dart:developer';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firestore_products_manager/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
-class SignIn extends StatefulWidget {
+class Register extends StatefulWidget {
   final Function toggleView;
 
-  const SignIn({Key? key, required this.toggleView}) : super(key: key);
+  const Register({Key? key, required this.toggleView}) : super(key: key);
 
   @override
-  _SignInState createState() => _SignInState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final AuthService _authService = AuthService();
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordConfirmController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sign in to get access"),
+        title: const Text("Sign up to start"),
         actions: [
           TextButton.icon(
             onPressed: () {
@@ -34,7 +35,7 @@ class _SignInState extends State<SignIn> {
               color: Colors.white,
             ),
             label: const Text(
-              "Register",
+              "Sign in",
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -57,13 +58,19 @@ class _SignInState extends State<SignIn> {
                 obscureText: true,
               ),
               const SizedBox(height: 20),
+              TextFormField(
+                controller: _passwordConfirmController,
+                obscureText: true,
+              ),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   log(_emailController.text);
                   log(_passwordController.text);
+                  log(_passwordConfirmController.text);
                 },
                 child: const Text(
-                  "Sign in",
+                  "Register",
                 ),
               )
             ],
