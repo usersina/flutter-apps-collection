@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:http_authentication/services/http_service.dart';
+import 'package:http_authentication/shared/constants.dart';
 
-class SignIn extends StatelessWidget {
+class SignIn extends StatefulWidget {
   final Function toggleView;
 
   const SignIn({Key? key, required this.toggleView}) : super(key: key);
+
+  @override
+  State<SignIn> createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
+  final HttpService _httpService = HttpService();
+
+  final _formKey = GlobalKey<FormState>();
+  bool _enableAutoValidation = false;
+  // bool loading = false;
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +29,7 @@ class SignIn extends StatelessWidget {
         actions: [
           TextButton.icon(
             onPressed: () {
-              toggleView();
+              widget.toggleView();
             },
             icon: const Icon(
               Icons.person,
@@ -27,6 +43,66 @@ class SignIn extends StatelessWidget {
             ),
           )
         ],
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+          child: Form(
+            key: _formKey,
+            autovalidateMode: _enableAutoValidation
+                ? AutovalidateMode.onUserInteraction
+                : AutovalidateMode.disabled,
+            child: Column(
+              children: <Widget>[
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _emailController,
+                  validator: (String? value) {
+                    if (value == null) return "";
+
+                    if (value.isEmpty || !value.contains("@")) {
+                      return "Please enter a valid email";
+                    }
+                    return null;
+                  },
+                  decoration: textInputDecoration.copyWith(
+                    hintText: "Enter your email",
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  validator: (String? value) {
+                    if (value == null) return "";
+
+                    if (value.isEmpty || value.length < 6) {
+                      return "Password should have 6 characters minimum";
+                    }
+                    return null;
+                  },
+                  decoration: textInputDecoration.copyWith(
+                    hintText: "Enter your password",
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    setState(() {
+                      _enableAutoValidation = true;
+                    });
+                    if (_formKey.currentState == null) return;
+
+                    if (_formKey.currentState!.validate()) {}
+                  },
+                  child: const Text(
+                    "Sign In",
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
