@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:http_authentication/services/http_service.dart';
 import 'package:http_authentication/shared/constants.dart';
@@ -111,7 +113,14 @@ class _RegisterState extends State<Register> {
                     });
                     if (_formKey.currentState == null) return;
 
-                    if (_formKey.currentState!.validate()) {}
+                    if (_formKey.currentState!.validate()) {
+                      dynamic res =
+                          await _httpService.registerWithEmailAndPassword(
+                        _emailController.text,
+                        _passwordController.text,
+                      );
+                      log(res);
+                    }
                   },
                   child: const Text(
                     "Register",
