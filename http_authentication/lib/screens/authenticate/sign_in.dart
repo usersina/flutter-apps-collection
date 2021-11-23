@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:http_authentication/services/http_service.dart';
 import 'package:http_authentication/shared/constants.dart';
@@ -76,8 +78,8 @@ class _SignInState extends State<SignIn> {
                   validator: (String? value) {
                     if (value == null) return "";
 
-                    if (value.isEmpty || value.length < 6) {
-                      return "Password should have 6 characters minimum";
+                    if (value.isEmpty || value.length < 3) {
+                      return "Password should have 3 characters minimum";
                     }
                     return null;
                   },
@@ -93,7 +95,14 @@ class _SignInState extends State<SignIn> {
                     });
                     if (_formKey.currentState == null) return;
 
-                    if (_formKey.currentState!.validate()) {}
+                    if (_formKey.currentState!.validate()) {
+                      dynamic res =
+                          await _httpService.signInWithEmailAndPassword(
+                        _emailController.text,
+                        _passwordController.text,
+                      );
+                      log(res);
+                    }
                   },
                   child: const Text(
                     "Sign In",

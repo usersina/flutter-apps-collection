@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 
 class HttpService {
-  final String baseUrl = "https://spring-app-url:8080/";
+  final String baseUrl = "http://10.0.2.2:8080/";
 
   // -- TESTME:
   Future<dynamic> registerWithEmailAndPassword(

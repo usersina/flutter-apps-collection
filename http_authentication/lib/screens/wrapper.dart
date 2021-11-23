@@ -7,6 +7,11 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // -- TODO:
+    // 1. Create a custom auth stream
+    // 2. Listen for auth stream changes
+    // 3. Display either Home() or Authenticate()
+    //    depending on whether stream value is null or not
     return const Authenticate();
   }
 }
