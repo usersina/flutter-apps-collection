@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firestore_products_manager/screens/authenticate/authenticate.dart';
 import 'package:firestore_products_manager/screens/home/home.dart';

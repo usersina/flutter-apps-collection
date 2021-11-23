@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 class Book {
   String id;
   String title;

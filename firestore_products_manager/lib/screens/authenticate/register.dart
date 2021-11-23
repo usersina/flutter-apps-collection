@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firestore_products_manager/services/auth_service.dart';
 import 'package:firestore_products_manager/shared/constants.dart';
