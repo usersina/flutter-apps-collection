@@ -1,16 +1,16 @@
-# http_authentication
+# HTTP Authentication
 
-A new Flutter project.
 
-## Getting Started
+The app has two toggleable interfaces, a `SignIn` and a `Register` interface with:
 
-This project is a starting point for a Flutter application.
+- A `UserProvider` that exposes a stream.
+- A root `StreamProvider` to check for the provided stream changes.
+- A `Wrapper` that listen to the stream changes & displays the appropriate page appropriately (Either `Authenticate` or `Home`)
 
-A few resources to get you started if this is your first Flutter project:
+<div align="center">
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+![](/media/stream_auth.gif)
+</div>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+**Note:** This application is just a way to experiment with a Stream in a custom provider; sort of like Angular's Behavior Subject. Simply using a simple provider value (instead of a stream) is more than enough in this case.
