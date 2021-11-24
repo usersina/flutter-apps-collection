@@ -1,8 +1,12 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:http_authentication/models/user.dart';
+import 'package:http_authentication/providers/user_provider.dart';
 import 'package:http_authentication/services/http_service.dart';
 import 'package:http_authentication/shared/constants.dart';
+import 'package:provider/provider.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
@@ -27,6 +31,11 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider _userProvider = Provider.of<UserProvider>(
+      context,
+      listen: false,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Create an account"),
@@ -80,8 +89,8 @@ class _RegisterState extends State<Register> {
                   validator: (String? value) {
                     if (value == null) return "";
 
-                    if (value.isEmpty || value.length < 6) {
-                      return "Password should have 6 characters minimum";
+                    if (value.isEmpty || value.length < 3) {
+                      return "Password should have 3 characters minimum";
                     }
                     return null;
                   },
@@ -120,6 +129,17 @@ class _RegisterState extends State<Register> {
                         _passwordController.text,
                       );
                       log(res);
+                      if (res != null) {
+                        try {
+                          _userProvider.setNextStreamValue(
+                            User.fromMap(
+                              json.decode(res),
+                            ),
+                          );
+                        } catch (e) {
+                          log(e.toString());
+                        }
+                      }
                     }
                   },
                   child: const Text(

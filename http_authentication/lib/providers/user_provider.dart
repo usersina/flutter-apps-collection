@@ -9,4 +9,8 @@ class UserProvider extends ChangeNotifier {
   Stream<User?> get loggedUser$ {
     return _streamController.stream;
   }
+
+  setNextStreamValue(User? user) {
+    _streamController.add(user);
+  }
 }

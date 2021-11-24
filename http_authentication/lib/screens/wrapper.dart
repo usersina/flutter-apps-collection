@@ -1,5 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:http_authentication/models/user.dart';
 import 'package:http_authentication/screens/authenticate/authenticate.dart';
+import 'package:http_authentication/screens/home/home.dart';
+import 'package:provider/provider.dart';
 // import 'package:http_authentication/screens/home/home.dart';
 
 class Wrapper extends StatelessWidget {
@@ -7,11 +12,9 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // -- TODO:
-    // 1. Create a custom auth stream
-    // 2. Listen for auth stream changes
-    // 3. Display either Home() or Authenticate()
-    //    depending on whether stream value is null or not
-    return const Authenticate();
+    log("Getting notified!");
+    // -- Subscribe to the User provided by the previous widget stream
+    final user = Provider.of<User?>(context);
+    return user == null ? const Authenticate() : const Home();
   }
 }

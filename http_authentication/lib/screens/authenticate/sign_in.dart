@@ -1,8 +1,12 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:http_authentication/models/user.dart';
+import 'package:http_authentication/providers/user_provider.dart';
 import 'package:http_authentication/services/http_service.dart';
 import 'package:http_authentication/shared/constants.dart';
+import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -25,6 +29,11 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider _userProvider = Provider.of<UserProvider>(
+      context,
+      listen: false,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Sign in to get access"),
@@ -102,6 +111,17 @@ class _SignInState extends State<SignIn> {
                         _passwordController.text,
                       );
                       log(res);
+                      if (res != null) {
+                        try {
+                          _userProvider.setNextStreamValue(
+                            User.fromMap(
+                              json.decode(res),
+                            ),
+                          );
+                        } catch (e) {
+                          log(e.toString());
+                        }
+                      }
                     }
                   },
                   child: const Text(
