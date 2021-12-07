@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:tests_app/album.dart';
+import 'package:tests_app/http_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +31,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final HttpService _httpService = HttpService();
+  final Client httpClient = Client();
+
   int _counter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -46,9 +57,23 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+            FutureBuilder<Album>(
+                future: _httpService.fetchAlbum(httpClient),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(
+                      snapshot.data!.title,
+                      style: const TextStyle(
+                        color: Colors.lightGreen,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.data}');
+                  }
+                  return const CircularProgressIndicator();
+                }),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
