@@ -46,7 +46,6 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
 
-  # test: any # ^1.19.5 fails
   mockito: ^5.0.16
   build_runner: ^2.1.5
 

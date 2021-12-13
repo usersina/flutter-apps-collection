@@ -8,7 +8,7 @@ import 'package:tests_app/http_service.dart';
 import 'http_service_test.mocks.dart';
 
 @GenerateMocks([Client])
-void main(List<String> args) {
+void main() {
   group("fetchAlbum", () {
     final HttpService httpService = HttpService();
     final Client httpClient = Client();
@@ -34,7 +34,7 @@ void main(List<String> args) {
 
         when(
           client.get(
-            Uri.parse("uri"),
+            Uri.parse("https://s.typicode.com/albums/1"),
           ),
         ).thenAnswer(
           (_) async => Response("Not Found", 404),
